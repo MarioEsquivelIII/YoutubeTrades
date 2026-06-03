@@ -7,7 +7,6 @@
 
 # environment / secrets
 .env*
-!.env.local.example
 
 # misc
 *.log

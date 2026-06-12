@@ -6,9 +6,9 @@ import { TRENDS } from "@/lib/extract";
 // the page maps it to price range / security-type / trend filter state.
 const PILLS = [
   { id: "all", label: "All" },
-  { id: "low", label: "Low cost" },
-  { id: "medium", label: "Medium" },
-  { id: "expensive", label: "Expensive" },
+  { id: "under25", label: "Under $25" },
+  { id: "mid", label: "$50 – $150" },
+  { id: "over200", label: "$200+" },
   { id: "etf", label: "ETFs" },
   { id: "index", label: "Index funds" },
 ];

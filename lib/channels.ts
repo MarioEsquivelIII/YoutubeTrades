@@ -3,6 +3,7 @@ import type { Channel } from "./types";
 // Seed list of well-known finance YouTubers shown as toggle chips in the filter.
 // Users can also type in any other channel name (free-text) on top of these.
 export const CHANNELS: Channel[] = [
+  // ── General personal finance / broad market ──────────────────────────────
   { id: "meetkevin", name: "Meet Kevin", handle: "MeetKevin" },
   { id: "grahamstephan", name: "Graham Stephan", handle: "GrahamStephan" },
   { id: "andreijikh", name: "Andrei Jikh", handle: "AndreiJikh" },
@@ -29,6 +30,21 @@ export const CHANNELS: Channel[] = [
   { id: "calltoleap", name: "Call to Leap", handle: "CalltoLeap" },
   { id: "bravosresearch", name: "Bravos Research", handle: "BravosResearch" },
   { id: "danielpronk", name: "Daniel Pronk", handle: "DanielPronk" },
+
+  // ── Sector-specific channels (added for broader category coverage) ────────
+  // Crypto / Blockchain
+  { id: "coinbureau", name: "Coin Bureau", handle: "CoinBureau" },
+  { id: "altcoindaily", name: "Altcoin Daily", handle: "AltcoinDaily" },
+  // Innovation / EV / AI / Genomics
+  { id: "arkinvest", name: "ARK Invest", handle: "ARKInvest" },
+  { id: "nowuknow", name: "Now You Know", handle: "NowYouKnow" },
+  // Growth stocks / tech
+  { id: "casgains", name: "Casgains Academy", handle: "Casgains" },
+  { id: "inthemoney", name: "In The Money", handle: "InTheMoney" },
+  // Biotech / healthcare
+  { id: "biotechbreakdowns", name: "Biotech Breakdowns", handle: "BiotechBreakdowns" },
+  // Dividend / income
+  { id: "dividendgrowth", name: "Dividend Growth Investing", handle: "DividendGrowthInvesting" },
 ];
 
 export const channelName = (id: string): string =>

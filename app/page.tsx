@@ -21,9 +21,9 @@ const PRICE_MIN = 0;
 const PRICE_MAX = 10000;
 const PRICE_BANDS: Record<string, [number, number]> = {
   all: [PRICE_MIN, PRICE_MAX],
-  low: [0, 20],
-  medium: [20, 200],
-  expensive: [200, PRICE_MAX],
+  under25: [0, 25],
+  mid: [50, 150],
+  over200: [200, PRICE_MAX],
 };
 
 const DEFAULT_TRACKED: TrackedChannel[] = CHANNELS.filter((c) => c.handle).map(
@@ -241,7 +241,7 @@ export default function Page() {
     trend !== null ||
     priceMin > PRICE_MIN ||
     priceMax < PRICE_MAX;
-  const displayed = ranked.slice(0, filterActive ? 60 : 25);
+  const displayed = ranked.slice(0, filterActive ? 150 : 50);
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-6 sm:py-8">

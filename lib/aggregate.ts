@@ -1,17 +1,14 @@
 import type { Stock, Video } from "./types";
 import type { RawVideo } from "./youtube";
-import { mapLimit } from "./async";
 import { extractSource, extractTickers, KNOWN } from "./extract";
-import { getQuote } from "./finnhub";
+import { getQuotes } from "./yahoo";
 
 // Turns the raw videos (title + description + transcript) into the same Stock[]
 // shape the UI already renders. One file = the whole "videos -> stocks" step.
 
-// Return up to this many ranked stocks (so trend/category filters have a real
-// pool), but only fetch live prices for the top slice to stay within Finnhub's
-// free-tier rate limit. Tickers past PRICE_TOP still appear (price "—").
+// Yahoo Finance has no rate limit for batch requests, so fetch prices for all
+// ranked stocks in a single call.
 const MAX_STOCKS = 150;
-const PRICE_TOP = 60;
 
 function daysAgoISO(days: number): string {
   const d = new Date();
@@ -74,8 +71,6 @@ export async function buildStocks(rawVideos: RawVideo[]): Promise<Stock[]> {
     }
   }
 
-  // Rank tickers by total views (hype), keep the long tail up to MAX_STOCKS, but
-  // only spend Finnhub quota on the top PRICE_TOP — the rest still show as "—".
   const ranked = [...byTicker.entries()]
     .map(([ticker, videos]) => ({
       ticker,
@@ -85,12 +80,8 @@ export async function buildStocks(rawVideos: RawVideo[]): Promise<Stock[]> {
     .sort((a, b) => b.views - a.views)
     .slice(0, MAX_STOCKS);
 
-  const quoteEntries = await mapLimit(
-    ranked.slice(0, PRICE_TOP),
-    5,
-    async ({ ticker }) => [ticker, await getQuote(ticker)] as const,
-  );
-  const quotes = new Map(quoteEntries);
+  // Batch-fetch all ranked tickers in one Yahoo Finance request.
+  const quotes = await getQuotes(ranked.map((r) => r.ticker));
 
   return ranked.map(({ ticker, videos }): Stock => {
     const quote = quotes.get(ticker) ?? null;
